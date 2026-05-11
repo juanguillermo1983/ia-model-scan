@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c ' *)",
+      "Bash(pip3 --version)",
+      "Bash(python3 -c \"import fickling; print\\('fickling OK'\\)\")",
+      "Bash(python3 -c \"import modelscan; print\\('modelscan OK'\\)\")",
+      "Bash(python3 -c \"import huggingface_hub; print\\('huggingface_hub OK'\\)\")",
+      "Bash(python3 -c \"import dotenv; print\\('python-dotenv OK'\\)\")",
+      "Bash(.venv/bin/pip install *)"
+    ]
+  }
+}

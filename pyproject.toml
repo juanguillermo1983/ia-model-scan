@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ia-model-scan"
+version = "5.0.0"
+description = "Security scanner for AI/ML models — detects malicious payloads in Pickle, SafeTensors, GGUF and HDF5 formats"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+dependencies = [
+    "fickling>=0.1.3",
+    "modelscan>=0.8.0",
+    "huggingface-hub>=0.22.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.4",
+]
+
+[tool.setuptools]
+py-modules = ["scanner", "size_checker", "downloader", "models_catalog"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

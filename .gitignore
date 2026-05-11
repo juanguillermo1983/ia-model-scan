@@ -1,0 +1,26 @@
+# Secrets — never commit
+.env
+
+# Generated at runtime
+logs/
+reports/
+
+# Model weights (can be very large)
+models/
+
+# Temporary scan directory
+tmp_scan_pkl/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
