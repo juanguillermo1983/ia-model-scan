@@ -242,6 +242,20 @@ source venv/bin/activate
 python3 -m pip install -e .
 ```
 
+### `numpy.lib.format has no attribute '_check_version'`
+numpy 2.x eliminó esa API interna que usa modelscan. Bajar numpy a la versión compatible:
+```bash
+python3 -m pip install "numpy<2.0"
+```
+Desde esta versión del proyecto ya no ocurre — `pyproject.toml` restringe `numpy<2.0` automáticamente.
+
+### `please install modelscan with h5py extras`
+Falta el soporte para archivos `.h5` (Keras/HDF5):
+```bash
+python3 -m pip install "modelscan[hdf5]"
+```
+Desde esta versión del proyecto ya no ocurre — `pyproject.toml` instala `modelscan[hdf5]` automáticamente.
+
 ### `pip install` falla con `gcc` o compilación de extensiones C
 ```bash
 sudo dnf install -y gcc python3-devel
