@@ -57,6 +57,10 @@ rm -rf ia_model_scan.egg-info
 
 ## 3. Crear entorno virtual
 
+> **Nunca usar `sudo` para crear el venv.** Si se crea con sudo, los archivos quedan
+> en propiedad de root y los `pip install` posteriores fallan con errores de permisos.
+> Verificar el dueño con `ls -la venv/bin/python3` — debe ser tu usuario, no root.
+
 Si `python3` ya es 3.10+:
 
 ```bash
@@ -163,8 +167,8 @@ La salida debe mostrar el Python del venv y confirmar que los módulos están di
 ```
 🔧 Verificando herramientas...
    Python: /ruta/ia-model-scan/venv/bin/python3
-   ✅ fickling      → /ruta/venv/bin/python3 -m fickling
-   ✅ modelscan     → /ruta/venv/bin/python3 -m modelscan
+   ✅ fickling      → /ruta/ia-model-scan/venv/bin/fickling
+   ✅ modelscan     → /ruta/ia-model-scan/venv/bin/modelscan
 ```
 
 ---
@@ -227,6 +231,15 @@ Las librerías no están instaladas en el venv activo:
 source venv/bin/activate
 python3 -m pip list | grep -E "fickling|modelscan"   # verificar
 python3 -m pip install fickling modelscan              # reinstalar si no aparecen
+```
+
+### Venv creado con sudo — archivos en propiedad de root
+Síntoma: errores de permisos al instalar, o `ls -la venv/bin/python3` muestra `root` como dueño.
+```bash
+sudo rm -rf venv
+python3 -m venv venv          # sin sudo
+source venv/bin/activate
+python3 -m pip install -e .
 ```
 
 ### `pip install` falla con `gcc` o compilación de extensiones C

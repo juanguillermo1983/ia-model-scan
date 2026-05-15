@@ -372,11 +372,11 @@ def analizar_fickling(filepath):
         if not pkl_path:
             return None, "sin_pkl"
 
-        r = subprocess.run([sys.executable, "-m", "fickling", pkl_path], capture_output=True, text=True, timeout=120)
+        r = subprocess.run([_bin("fickling"), pkl_path], capture_output=True, text=True, timeout=120)
         return r.stdout + r.stderr, "fickling"
 
     except zipfile.BadZipFile:
-        r = subprocess.run([sys.executable, "-m", "modelscan", "-p", filepath], capture_output=True, text=True, timeout=180)
+        r = subprocess.run([_bin("modelscan"), "-p", filepath], capture_output=True, text=True, timeout=180)
         return r.stdout + r.stderr, "modelscan_fallback"
     except Exception as e:
         return f"ERROR: {e}", "error"
@@ -388,7 +388,7 @@ def analizar_fickling(filepath):
 # ── Analizar con ModelScan ────────────────────────────────────────────────────
 def analizar_modelscan(filepath):
     try:
-        r = subprocess.run([sys.executable, "-m", "modelscan", "-p", filepath], capture_output=True, text=True, timeout=180)
+        r = subprocess.run([_bin("modelscan"), "-p", filepath], capture_output=True, text=True, timeout=180)
         return r.stdout + r.stderr, "modelscan"
     except Exception as e:
         return f"ERROR: {e}", "error"
@@ -541,15 +541,20 @@ def escanear_archivo(filepath, idx, total):
     return resultado
 
 
+# ── Helpers de rutas de binarios del venv ────────────────────────────────────
+def _bin(name):
+    return os.path.join(os.path.dirname(sys.executable), name)
+
+
 # ── Verificar herramientas ────────────────────────────────────────────────────
 def verificar_herramientas():
     log(c("BD", "\n🔧 Verificando herramientas..."))
     log(c("DIM", f"   Python: {sys.executable}"))
     ok = True
     for h in ["fickling", "modelscan"]:
-        r = subprocess.run([sys.executable, "-m", h, "--help"], capture_output=True)
-        if r.returncode == 0:
-            log(c("G", f"   ✅ {h:<12} → {sys.executable} -m {h}"))
+        path = _bin(h)
+        if os.path.isfile(path):
+            log(c("G", f"   ✅ {h:<12} → {path}"))
         else:
             log(c("R", f"   ❌ {h:<12} → NO encontrado  (pip install {h})"))
             ok = False
